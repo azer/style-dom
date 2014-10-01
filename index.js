@@ -1,6 +1,9 @@
 var toCamelCase = require('to-camel-case');
 
+var s = setup();
+
 module.exports = style;
+module.exports.setup = setup;
 module.exports.hide = effect('display', 'none');
 module.exports.show = effect('display', 'initial');
 
@@ -18,7 +21,18 @@ function effect(name, value) {
 }
 
 function one(element, name, value) {
+  if( typeof value == 'number' )
+    value += s.numberAppend;
+
   element.style[toCamelCase((name == 'float') ? 'cssFloat' : name)] = value;
+}
+
+function setup(settings) {
+  var s = settings || {};
+
+  s.numberAppend = s.numberAppend || 'px';
+
+  return s;
 }
 
 function style(element) {
