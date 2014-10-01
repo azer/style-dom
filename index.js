@@ -21,16 +21,21 @@ function effect(name, value) {
 }
 
 function one(element, name, value) {
-  if( typeof value == 'number' )
-    value += s.numberAppend;
 
-  element.style[toCamelCase((name == 'float') ? 'cssFloat' : name)] = value;
+  var propName = toCamelCase((name == 'float') ? 'cssFloat' : name);
+
+  if (s.suffix[propName] && typeof value == 'number')
+    value += s.suffix[propName];
+
+  element.style[propName] = value;
 }
 
 function setup(settings) {
-  var s = settings || {};
+  var s = settings || {},
+      p = 'px';
 
-  s.numberAppend = s.numberAppend || 'px';
+  //the following suffix map is what TweenLite uses: https://github.com/greensock/GreenSock-JS
+  s.suffix = s.suffix || {top:p, right:p, bottom:p, left:p, width:p, height:p, fontSize:p, padding:p, margin:p, perspective:p, lineHeight:""};;
 
   return s;
 }
